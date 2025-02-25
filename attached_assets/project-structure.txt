@@ -1,0 +1,61 @@
+# Project Structure
+your-replit-project/
+├── app.py           # Main Flask application
+├── templates/       # HTML templates
+│   ├── index.html   # Lead generation form
+│   └── leads.html   # Saved leads viewer
+├── .replit          # Replit configuration
+└── requirements.txt # Dependencies
+
+# Setup Instructions for Replit
+
+1. Create a new Replit project using Python template
+
+2. Create the necessary files and folders:
+   - Create app.py and paste the provided code
+   - Create a templates folder
+   - Add index.html and leads.html to the templates folder
+
+3. Create requirements.txt with the following dependencies:
+```
+flask==2.0.1
+pandas==1.3.3
+selenium==4.1.0
+webdriver-manager==3.5.2
+```
+
+4. Configure .replit file (if not automatically created):
+```
+language = "python3"
+run = "python app.py"
+```
+
+5. Install the Chrome browser on Replit:
+   - Click on the Shell tab in Replit
+   - Run the following commands:
+```
+mkdir -p /home/runner/.cache
+apt-get update
+apt-get install -y wget gnupg
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
+apt-get update
+apt-get install -y google-chrome-stable
+```
+
+6. Install ChromeDriver:
+```
+CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3 | cut -d '.' -f 1)
+CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
+wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+chmod +x chromedriver
+mv -f chromedriver /usr/local/bin/chromedriver
+```
+
+7. Run the application:
+   - Click on the Run button in Replit
+
+8. Share with your team:
+   - Use the "Share" button in Replit to invite your employees
+   - They can access and use the app without needing to set it up themselves

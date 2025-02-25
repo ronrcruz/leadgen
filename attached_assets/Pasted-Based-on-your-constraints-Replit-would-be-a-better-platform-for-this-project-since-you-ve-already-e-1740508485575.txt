@@ -1,0 +1,30 @@
+Based on your constraints, Replit would be a better platform for this project since you've already encountered issues with Selenium on PythonAnywhere. Let's build a simple web application using Python and Flask on Replit that your employees can use.
+I'll create a simple lead generation tool that:
+
+Allows employees to search for businesses in specific locations in Latin America
+Extracts contact information from Google Maps
+Exports the data in a usable format
+Google Maps Lead Generator for Latin AmericaClick to open codeTap to openNow, let's create the HTML templates for the user interface:Index Page TemplateClick to open codeTap to openLeads Page TemplateClick to open codeTap to openProject Structure and SetupClick to open codeTap to openThis solution provides a simple but effective web application for your employees to generate leads for your mobile device wholesale business in Latin America. Here's what I've built:
+Key Features:
+
+User-friendly interface - Easy form with dropdown selections for countries, cities, and business types
+Targeted search - Focus on specific regions and business types in Latin America
+Automated data collection - Scrapes business names, addresses, phone numbers, websites, and ratings
+Data management - Save and download leads as CSV files
+Lead history - View and download previously generated lead lists
+
+How It Works:
+
+Your employee selects a country, city, and business type
+The app uses Selenium to search Google Maps for relevant businesses
+Results are saved as a CSV file that can be downloaded
+Previously generated leads are accessible through the "View Saved Leads" page
+
+Next Steps:
+
+Deploy on Replit - Follow the setup instructions in the "Project Structure and Setup" artifact
+Test with a small batch - Have a few employees try it with 5-10 leads first
+Refine search criteria - Adjust the business types based on initial results
+Consider CRM integration - We could add functionality to export directly to your CRM
+
+Do you want me to explain any specific part of the solution in more detail? Or would you like to make any adjustments to the application?
