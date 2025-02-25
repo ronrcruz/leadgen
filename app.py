@@ -22,21 +22,24 @@ app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key")
 
 # Configure Chrome options for Replit environment
 def get_driver():
-    from selenium.webdriver.chrome.service import Service
-    from selenium.webdriver.chrome.options import Options
+    try:
+        chrome_options = Options()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.binary_location = "/usr/bin/chromium"  # Use system Chromium
+        chrome_options.add_argument('--window-size=1920,1080')
 
-    chrome_options = Options()
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--disable-dev-shm-usage')
-    chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument('--window-size=1920,1080')
-    chrome_options.add_argument('--remote-debugging-port=9222')
-    # Add user agent to avoid detection
-    chrome_options.add_argument('--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
+        # Add user agent to avoid detection
+        chrome_options.add_argument('--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36')
 
-    # Let Selenium Manager handle driver installation
-    return webdriver.Chrome(options=chrome_options)
+        service = Service()
+        driver = webdriver.Chrome(options=chrome_options, service=service)
+        return driver
+    except Exception as e:
+        logger.error(f"Failed to initialize Chrome driver: {str(e)}")
+        raise
 
 # Location and business type data
 LATIN_AMERICA_LOCATIONS = {

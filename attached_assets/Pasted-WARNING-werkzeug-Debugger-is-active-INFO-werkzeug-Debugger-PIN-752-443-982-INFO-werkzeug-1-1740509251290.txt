@@ -1,0 +1,23 @@
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 752-443-982
+INFO:werkzeug:172.31.128.36 - - [25/Feb/2025 18:46:30] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.31.128.36 - - [25/Feb/2025 18:46:30] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.31.128.36 - - [25/Feb/2025 18:46:30] "GET / HTTP/1.1" 200 -
+DEBUG:selenium.webdriver.common.selenium_manager:Selenium Manager binary found at: /home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/selenium/webdriver/common/linux/selenium-manager
+DEBUG:selenium.webdriver.common.selenium_manager:Executing process: /home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/selenium/webdriver/common/linux/selenium-manager --browser chrome --debug --language-binding python --output json
+DEBUG:selenium.webdriver.common.selenium_manager:chromedriver not found in PATH
+DEBUG:selenium.webdriver.common.selenium_manager:chrome not found in PATH
+DEBUG:selenium.webdriver.common.selenium_manager:chrome not found in the system
+DEBUG:selenium.webdriver.common.selenium_manager:Required browser: chrome 133.0.6943.126
+DEBUG:selenium.webdriver.common.selenium_manager:chrome 133.0.6943.126 already exists
+DEBUG:selenium.webdriver.common.selenium_manager:chrome 133.0.6943.126 is available at /home/runner/.cache/selenium/chrome/linux64/133.0.6943.126/chrome
+DEBUG:selenium.webdriver.common.selenium_manager:Required driver: chromedriver 133.0.6943.126
+DEBUG:selenium.webdriver.common.selenium_manager:chromedriver 133.0.6943.126 already in the cache
+DEBUG:selenium.webdriver.common.selenium_manager:Driver path: /home/runner/.cache/selenium/chromedriver/linux64/133.0.6943.126/chromedriver
+DEBUG:selenium.webdriver.common.selenium_manager:Browser path: /home/runner/.cache/selenium/chrome/linux64/133.0.6943.126/chrome
+DEBUG:selenium.webdriver.common.service:Started executable: `/home/runner/.cache/selenium/chromedriver/linux64/133.0.6943.126/chromedriver` in a child process with pid: 1161 using 0 to output -3
+ERROR:__main__:Error in scrape_google_maps: Message: Service /home/runner/.cache/selenium/chromedriver/linux64/133.0.6943.126/chromedriver unexpectedly exited. Status code was: 127
+
+ERROR:__main__:Error in scrape endpoint: Message: Service /home/runner/.cache/selenium/chromedriver/linux64/133.0.6943.126/chromedriver unexpectedly exited. Status code was: 127
+
+INFO:werkzeug:172.31.128.36 - - [25/Feb/2025 18:47:00] "POST /scrape HTTP/1.1" 200 -
