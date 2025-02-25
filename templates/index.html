@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latin America Lead Generator</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.css" rel="stylesheet">
+    <style>
+        .loading {
+            display: none;
+        }
+        .results {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-body">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <span class="navbar-brand">
+                <i data-feather="globe" class="me-2"></i>
+                Lead Generator
+            </span>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card border-0 shadow">
+                    <div class="card-header bg-secondary bg-opacity-25">
+                        <h2 class="h4 mb-0 text-center">
+                            <i data-feather="search" class="me-2"></i>
+                            Mobile Device Wholesale Lead Generator
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="scrapeForm" class="needs-validation" novalidate>
+                            <div class="mb-4">
+                                <label for="country" class="form-label">Country</label>
+                                <select class="form-select" id="country" required>
+                                    <option value="" selected disabled>Select a country</option>
+                                    {% for country in locations %}
+                                    <option value="{{ country }}">{{ country }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Please select a country.</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="city" class="form-label">City</label>
+                                <select class="form-select" id="city" required disabled>
+                                    <option value="" selected disabled>Select a country first</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a city.</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="business_type" class="form-label">Business Type</label>
+                                <select class="form-select" id="business_type" required>
+                                    <option value="" selected disabled>Select a business type</option>
+                                    {% for type in business_types %}
+                                    <option value="{{ type }}">{{ type }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">Please select a business type.</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="limit" class="form-label">Number of Leads (max 50)</label>
+                                <input type="number" class="form-control" id="limit" min="1" max="50" value="20" required>
+                                <div class="invalid-feedback">Please enter a number between 1 and 50.</div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i data-feather="search" class="me-2"></i>
+                                    Generate Leads
+                                </button>
+                                <a href="/leads" class="btn btn-outline-secondary">
+                                    <i data-feather="list" class="me-2"></i>
+                                    View Saved Leads
+                                </a>
+                            </div>
+                        </form>
+                        
+                        <div class="loading text-center mt-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2 text-muted">Searching for leads... This may take a few minutes.</p>
+                        </div>
+                        
+                        <div class="results alert alert-success mt-4">
+                            <h4 class="alert-heading">
+                                <i data-feather="check-circle" class="me-2"></i>
+                                Success!
+                            </h4>
+                            <p id="results-message"></p>
+                            <hr>
+                            <p class="mb-0">
+                                <a id="download-link" href="#" class="btn btn-success">
+                                    <i data-feather="download" class="me-2"></i>
+                                    Download CSV
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const countrySelect = document.getElementById('country');
+            const citySelect = document.getElementById('city');
+            const scrapeForm = document.getElementById('scrapeForm');
+            const loadingDiv = document.querySelector('.loading');
+            const resultsDiv = document.querySelector('.results');
+            const resultsMessage = document.getElementById('results-message');
+            const downloadLink = document.getElementById('download-link');
+            
+            // Form validation
+            scrapeForm.addEventListener('submit', function(e) {
+                if (!scrapeForm.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                scrapeForm.classList.add('was-validated');
+            }, false);
+            
+            // Populate cities when country changes
+            countrySelect.addEventListener('change', function() {
+                const country = this.value;
+                const cities = {{ locations|tojson }};
+                
+                citySelect.innerHTML = '<option value="" disabled selected>Select a city</option>';
+                citySelect.disabled = false;
+                
+                cities[country].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            });
+            
+            // Handle form submission
+            scrapeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!scrapeForm.checkValidity()) {
+                    return;
+                }
+                
+                const formData = {
+                    country: countrySelect.value,
+                    city: citySelect.value,
+                    business_type: document.getElementById('business_type').value,
+                    limit: document.getElementById('limit').value
+                };
+                
+                loadingDiv.style.display = 'block';
+                resultsDiv.style.display = 'none';
+                
+                fetch('/scrape', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    loadingDiv.style.display = 'none';
+                    
+                    if (data.status === 'success') {
+                        resultsDiv.style.display = 'block';
+                        resultsMessage.textContent = data.message;
+                        downloadLink.href = `/download/${data.filename}`;
+                        scrapeForm.classList.remove('was-validated');
+                        scrapeForm.reset();
+                        citySelect.disabled = true;
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    loadingDiv.style.display = 'none';
+                    alert('Error: Unable to process request');
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
