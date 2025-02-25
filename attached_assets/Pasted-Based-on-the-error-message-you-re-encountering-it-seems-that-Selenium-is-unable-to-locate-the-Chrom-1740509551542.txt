@@ -1,0 +1,60 @@
+Based on the error message you're encountering, it seems that Selenium is unable to locate the Chrome driver. This is a common issue when working with Selenium in Replit. Here are some steps you can try to resolve this:
+
+Use the Selenium WebDriver Manager:
+Update your code to use the WebDriver Manager, which can automatically download and manage the appropriate driver:
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+Use a headless browser:
+Since Replit runs in a cloud environment, using a headless browser might be more reliable:
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+
+driver = webdriver.Chrome(options=chrome_options)
+Specify the Chrome binary path:
+In Replit, the Chrome binary might be located at /usr/bin/chromium. Try specifying this path:
+
+chrome_options.binary_location = "/usr/bin/chromium"
+Install ChromeDriver manually:
+If the above methods don't work, you might need to manually install ChromeDriver. You can do this by adding the following to your .replit file:
+
+[nix]
+channel = "stable-22_11"
+
+[deployment]
+run = ["python3", "main.py"]
+
+[languages.python3]
+pattern = "**/*.py"
+syntax = "python"
+
+[languages.python3.languageServer]
+start = ["pylsp"]
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix", ".config"]
+
+[nix]
+channel = "stable-22_11"
+
+[nix.env]
+CHROMEDRIVER_PATH = "/home/runner/${REPL_SLUG}/chromedriver"
+Then, in your replit.nix file, add:
+
+{ pkgs }: {
+  deps = [
+    pkgs.python38Full
+    pkgs.chromedriver
+    pkgs.chromium
+  ];
+}
+Remember to restart your Repl after making these changes. If you're still encountering issues, you might need to consult Replit's support or consider using an alternative method for web scraping that doesn't require a browser driver.
